@@ -3,6 +3,12 @@
 %%%%%%%%%%%%%%%%%%%%%%               Lab 1               %%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+:- discontiguous
+        movie/2,
+        director/2,
+        actor/3,
+        actress/3.
+
 %%% Part 1: Write queries to answer the following questions.
 %
 %     a. In which year was the movie American Beauty released?
@@ -43,22 +49,57 @@ released_before(M, Y) :- movie(M, X) , X < Y .
 same_year(M1, M2) :- movie(M1, Y) , movie(M2, Y) .
 %
 %% d:
-co_star(A1, A2) :- ( actor(M, A1, _) , ( actor(M, A2, _) ; actress(M, A2, _) ) ) ;
-                   ( actress(M, A1, _), ( actor(M, A2, _) ; actress(M, A2, _) )) .
+co_star(A1, A2) :- ( actor(M, A1, _)  , ( actor(M, A2, _) ; actress(M, A2, _) ) ) ;
+                   ( actress(M, A1, _) , ( actor(M, A2, _) ; actress(M, A2, _) )) .
 %
 
-/** <examples> (Remove these if you want to give the exercises to students!)
+%%% Part 3: Further add to the knowledge base definitions of predicates with
+%%%         the following syntax and semantics:
+%
+%     a. plays(M,A,R) 	A is an actor or actress who played a role R in the movie M
+%     b. co_direct(D1,D2) 	D1 and D2 have co-directed some movie together
+%     c. self_direct(M,D) 	D played in a movie M which they also directed
+%     d. cameo(M,A) 	A played them self in movie M
+%     e. solo(M,A) 	A was the only person who played in movie M
+%     f. multi_role(M,A) 	A played two different roles in movie M
+%     g. veteran(A) 	A played in two movies more than 25 years apart
+%
+%% a:
+plays(M, A, R) :- actor(M, A, R) ; actress(M, A, R) .
+%
+%% b:
+co_direct(D1, D2) :- director(M, D1) , director(M, D2) .
+%
+%% c:
+self_direct(M, D) :- director(M, D) , actor(M, D, _) .
+%
+%% d:
+cameo(M, A) :- actor(M, A, A) .
+%
+%% e:
+solo(M, A) :- (actor(M, A, _) ; actress(M, A, _)) ,
+              aggregate_all(count, ( actor(M, _, _) ; actress(M, _, _) ) , 1) .
+%
+%% f:
+multi_role(M, A) :- (actor(M, A, R1) , actor(M, A, R2) , R1\=R2 ) ;
+                    (actress(M, A, R1) , actress(M, A, R2) , R1\=R2 ) .
+%
+%% g:
+veteran(A) :- movie(M1, Y1) , movie(M2, Y2) ,
+              (actor(M1, A, _) , actor(M2, A, _) ;
+              actress(M1, A, _) , actress(M2, A, _) ),
+              M1\=M2 , (Y1-Y2)>25 .
+%
 
-?- movie(american_beauty, Y).
-?- movie(M, 2000).
-?- movie(M, Y), Y < 2000.
-?- movie(M, Y), Y > 1999.
-?- actor(M1, A, _), actor(M2, A, _), M1 @> M2.
-?- actress(M, scarlett_johansson, _), director(M, D).
-?- actor(_, A, _), director(_, A).
-?- (actor(_, A, _) ; actress(_, A, _)), director(_, A).
-?- actor(M, john_goodman, _), actor(M, jeff_bridges, _).
-*/
+%%% Part 4: Add facts to the knowledge base:
+%
+movie(covid19, 2019).
+director(covid19, oliver_ray).
+actor(covid19, ruairi_fox, the_hero).
+actor(covid19, ruairi_fox, the_villain).
+movie('2nd_wave', 2020).
+director('2nd_wave', oliver_ray).
+%
 
 /* DATABASE
 
@@ -68,12 +109,6 @@ co_star(A1, A2) :- ( actor(M, A1, _) , ( actor(M, A2, _) ; actress(M, A2, _) ) )
     actress(M, A, R) <- actress A played role R in movie M
 
 */
-
-:- discontiguous
-        movie/2,
-        director/2,
-        actor/3,
-        actress/3.
 
 movie(american_beauty, 1999).
 director(american_beauty, sam_mendes).
@@ -3047,3 +3082,17 @@ actor(untitled_woody_allen_fall_project_2006, colin_salmon, '').
 movie(a_view_from_the_bridge, 2006).
 actress(a_view_from_the_bridge, scarlett_johansson, catherine).
 actor(a_view_from_the_bridge, anthony_lapaglia, eddie_carbone).
+
+movie(some_test_movie, 2020).
+actor(some_test_movie, test_actor, test_man).
+actress(some_test_movie, test_actress, test_woman).
+
+movie(solo_person, 2021).
+actor(solo_person, solo_actor, solo_joe).
+% actress(solo_person, solo_actress, solo_sally).
+
+movie(jim_does_it_all, 2022).
+actor(jim_does_it_all, jim_all, guy_1).
+actor(jim_does_it_all, jim_all, guy_2).
+actor(jim_does_it_all, jim_all, guy_3).
+actor(jim_does_it_all, jeff_the_slacker, just_jeff).
