@@ -1,2 +1,3 @@
 # ai-logic
-Agent-based artificial intelligence implemented in Prolog with genetic algorithms implemented and anlysed in Python.
+- Agent-based artificial intelligence implemented in Prolog 
+- Genetic algorithms implemented in Python and anlysed with Pandas and Matplotlib.
