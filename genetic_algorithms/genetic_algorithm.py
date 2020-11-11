@@ -266,42 +266,69 @@ def batch_main():
 
 # Complete the lab by writing code for each of these empty functions:
 
+# pop_size=100, tournament_size=2, crossover=0.0, uniform=False,
+# elitism=False, max_gen=1000, converged=False, write_every=1, file=None,
+# target="methinks it is like a weasel",
+# alphabet="abcdefghijklmnopqrstuvwxyz "
+
 def q1():
-    with open("output/ga_output_Q1.dat",'w') as f:
+    with open("output/q1/base.dat",'w') as f:
         gens, best = do_the_ga(file=f)
         print("{:4d} generations yielded: '{}' ({:.3f})".format(gens,best["solution"],best["fitness"]))
-    input("hit return to continue")
+    # input("hit return to continue")
 
 # q2a requires calling the do_the_ga() function repeatedly with different values for the tournament size...
 def q2a():
-    with open("output/ga_output_Q2a.dat",'w') as f:
-        gens, best = do_the_ga(file=f, tournament_size=2)
-        print("{:4d} generations yielded: '{}' ({:.3f})".format(gens,best["solution"],best["fitness"]))
-    input("hit return to continue")
+    tournament_sizes = [2, 4, 8, 16]
+    for t_size in tournament_sizes:
+        file_name = f"output/q2/a/{t_size}.dat"
+        with open(file_name,'w') as f:
+            gens, best = do_the_ga(file=f, tournament_size=t_size)
+            print("{:4d} generations yielded: '{}' ({:.3f})".format(gens,best["solution"],best["fitness"]))
+        # input("hit return to continue")
 
+# q2b requires calling the do_the_ga() function repeatedly with different values for the target length...
 def q2b():
-    with open("output/ga_output_Q2b.dat",'w') as f:
-        gens, best = do_the_ga(file=f, tournament_size=4)
-        print("{:4d} generations yielded: '{}' ({:.3f})".format(gens,best["solution"],best["fitness"]))
-    input("hit return to continue")
+    targets = ["this is a really long long long long long long long long long long long longlong long long long long long long long target",
+               "this is a long target how long will it take to find", 
+               "this is a shorter one", 
+               "shortest"]
+    for target in targets:
+        file_name = f"output/q2/b/{len(target)}.dat"
+        with open(file_name,'w') as f:
+            gens, best = do_the_ga(file=f, target=target)
+            print("{:4d} generations yielded: '{}' ({:.3f})".format(gens,best["solution"],best["fitness"]))
+        # input("hit return to continue")
 
+# q2c requires calling the do_the_ga() function repeatedly with different values for the alphabet size...
 def q2c():
-    with open("output/ga_output_Q2c.dat",'w') as f:
-        gens, best = do_the_ga(file=f, tournament_size=8)
-        print("{:4d} generations yielded: '{}' ({:.3f})".format(gens,best["solution"],best["fitness"]))
-    input("hit return to continue")
+    tournament_sizes = [2, 4, 8, 16, 32]
+    for t_size in tournament_sizes:
+        file_name = f"output/ga_output_Q2a_{t_size}_tournaments.dat"
+        with open(file_name,'w') as f:
+            gens, best = do_the_ga(file=f, tournament_size=t_size)
+            print("{:4d} generations yielded: '{}' ({:.3f})".format(gens,best["solution"],best["fitness"]))
+        # input("hit return to continue")
 
+# q2d requires calling the do_the_ga() function repeatedly with different values for the pop_size...
 def q2d():
-    with open("output/ga_output_Q2d.dat",'w') as f:
-        gens, best = do_the_ga(file=f, tournament_size=16)
-        print("{:4d} generations yielded: '{}' ({:.3f})".format(gens,best["solution"],best["fitness"]))
-    input("hit return to continue")
+    tournament_sizes = [2, 4, 8, 16, 32]
+    for t_size in tournament_sizes:
+        file_name = f"output/ga_output_Q2a_{t_size}_tournaments.dat"
+        with open(file_name,'w') as f:
+            gens, best = do_the_ga(file=f, tournament_size=t_size)
+            print("{:4d} generations yielded: '{}' ({:.3f})".format(gens,best["solution"],best["fitness"]))
+        # input("hit return to continue")
 
+# q2e requires calling the do_the_ga() function repeatedly with different values for the mutation rate...
 def q2e():
-    with open("output/ga_output_Q2e.dat",'w') as f:
-        gens, best = do_the_ga(file=f, tournament_size=32)
-        print("{:4d} generations yielded: '{}' ({:.3f})".format(gens,best["solution"],best["fitness"]))
-    input("hit return to continue")
+    tournament_sizes = [2, 4, 8, 16, 32]
+    for t_size in tournament_sizes:
+        file_name = f"output/ga_output_Q2a_{t_size}_tournaments.dat"
+        with open(file_name,'w') as f:
+            gens, best = do_the_ga(file=f, tournament_size=t_size)
+            print("{:4d} generations yielded: '{}' ({:.3f})".format(gens,best["solution"],best["fitness"]))
+        # input("hit return to continue")
 
 # def q3a():
 #   code here
@@ -319,11 +346,11 @@ def q2e():
 
 # q1()
 
-q2a()
+# q2a()
 q2b()
-q2c()
-q2d()
-q2e()
+# q2c()
+# q2d()
+# q2e()
 
 # q3a()
 # q3b()
