@@ -118,7 +118,7 @@ word(statale, s, t, a, t, a, l, e) .
 %% the last three arguments the horizontal words from top to bottom.
 
 crossword(V1, V2, V3, H1, H2, H3):- 
-
+    % set chars with correct intersections and no duplicates
     word(V1, V11, V12H12, V13, V14H22, V15, V16H32, V17) ,
     word(V2, V21, V22H14, V23, V24H24, V25, V26H34, V27) ,
     word(V3, V31, V32H16, V33, V34H26, V35, V36H36, V37) ,
@@ -126,7 +126,7 @@ crossword(V1, V2, V3, H1, H2, H3):-
     word(H2, H21, V14H22, H23, V24H24, H25, V34H26, H27) ,
     word(H3, H31, V16H32, H33, V26H34, H35, V36H36, H37) ,
     \+ member(V1, [V2, V3, H1, H2, H3]) ,
-
+    % output to crossword board
     format("    .---.   .---.   .---.\n") , flush_output ,
     format("    | ~w |   | ~w |   | ~w |    \n", [V11, V21, V31]) , flush_output ,
     format(".---+---+---+---+---+---+---.\n") , flush_output ,
