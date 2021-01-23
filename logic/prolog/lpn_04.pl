@@ -16,16 +16,17 @@
 %% [] = [_] .
 %% [] = [_ | []] .
 
-%
-%
-%
-%
-%
-%
-%
-%
-%
-%
+% false
+% true
+% false
+% true
+% false
+% true
+% false
+% true
+% true
+% false
+% false
 
 %% 4.2: Which of the following are syntactically correct lists? If the 
 %% representation is correct, how many elements does the list have?
@@ -39,25 +40,25 @@
 %% [[1, 2] | 4]
 %% [[1, 2], [3, 4] | [5, 6, 7]]
 
-%
-%
-%
-%
-%
-%
-%
+% [1, 2, 3, 4], length = 4
+% [1, 2, 3], length = 3
+% incorrect
+% [1, 2, 3, 4], length = 4
+% [1, 2, 3, 4], length = 4
+% [[]], length = 1
+% incorrect
+% [[1, 2], [3, 4], 5, 6, 7], length = 5
 
 %% 4.3: Write a predicate second(X,List) which checks whether X is the second 
 %% element of List.
 
-%
-%
+second(X, List):- List = [_, X | _] .
 
 %% 4.4: Write a predicate swap12(List1,List2) which checks whether List1 is 
 %% identical to List2, except that the first two elements are exchanged.
 
-%
-%
+swap12(List1, List2):- List1 = [A, B | L] ,
+                       List2 = [B, A | L] .
 
 %% 4.5: Suppose we are given a knowledge base with the following facts:
 
@@ -87,16 +88,12 @@ tran(neun, nine) .
 %% first translate the head of the list, then use recursion to translate 
 %% the tail.)
 
-%
-%
-%
-%
-%
-%
-%
+listtran([], []) .
+listtran([GH | GT], [EH | ET]) :- tran(GH, EH) ,
+                                  listtran(GT, ET) .
 
-% 4.6: Write a predicate twice(In,Out) whose left argument is a list, and whose 
-%% right argument is a list consisting of every element in the left list 
+%% 4.6: Write a predicate twice(In,Out) whose left argument is a list, and 
+%% whose right argument is a list consisting of every element in the left list 
 %% written twice. For example:
 
 %% twice([a, 4, buggle], X) .
@@ -110,42 +107,47 @@ tran(neun, nine) .
 %% lists, think about what you should do with the head, and use recursion to 
 %% handle the tail.)
 
-%
-%
-%
-%
-%
-%
-%
+twice([], []) .
+twice([H | T], [H, H | OT]):- twice(T, OT) .
 
 % 4.7: Draw the search trees for the following three queries:
 
 %% ?- member(a, [c, b, a, y]).
 
-%
-%
-%
-%
-%
-%
-%
+% ?- member(a, [c, b, a, y]) .
+% |
+% ?- member(a, [b, a, y]) .
+% |
+% ?- member(a, [a, y]) .
+% |
+% []
 
 %% ?- member(x, [a, b, c]) .
 
-%
-%
-%
-%
-%
-%
-%
+% ?- member(x, [a, b, c]) .
+% |
+% ?- member(x, [a, b]) .
+% |
+% ?- member(x, [a]) .
+% |
+% ?- member(x, []) .
+% |
+% #
 
 %% ?- member(X, [a, b, c]) .
 
-%
-%
-%
-%
-%
-%
-%
+%         ?- member(X, [a, b, c]) .
+%         |
+% .-------+-------.
+% |               |
+% []              ?- member(X, [b, c]) .
+% {X / a}         |
+%         .-------+-------.
+%         |               |
+%         []              ?- member(X, [c]) .
+%         {X / b}         |
+%                 .-------+-------.
+%                 |               |
+%                 []              ?- member(X, []) .
+%                 {X / c}         |
+%                                 #
